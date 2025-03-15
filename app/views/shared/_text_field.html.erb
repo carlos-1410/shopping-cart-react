@@ -1,0 +1,15 @@
+<div class="mb-3">
+  <%= form.label name, class: "form-label" %>
+  <% if name.to_s.include?("price") %>
+    <%= form.text_field :price_in_dollars,
+        class: "form-control",
+        value: form.object.send(name) ? cents_to_amount(form.object.send(name)) : nil,
+        placeholder: "Price in dollars" 
+    %>
+  <% else %>
+    <%= form.text_field name, class: "form-control", placeholder: name %>
+  <% end %>
+  <% if errors.any? %>
+    <p style="color: red"><%= errors.join(", ") %></p>
+  <% end %>
+</div>

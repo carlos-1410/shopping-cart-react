@@ -1,0 +1,22 @@
+<%= form_with(model: @product) do |form| %>
+  <% %i(vendor name price).each do |name| %>
+    <%= render "shared/text_field", form:, name:, type: "text", errors: @product.errors[name] %>
+  <% end %>
+
+  <div data-controller="image-preview">
+    <%= form.file_field :image, class: "form-control", accept: "image/*", data: { image_preview_target: "input" } %>
+    
+    <img
+      id="image-preview"
+      src="<%= url_for(@product.image) if @product.image.attached? %>"
+      class="img-thumbnail"
+      style="max-width: 200px; display: <%= @product.image.attached? ? 'block' : 'none' %>;"
+      data-image-preview-target="preview"\
+    >
+  </div>
+
+  <div class="pt-2">
+    <%= form.submit "Save", class: "btn btn-primary" %>
+    <%= link_to "Cancel", products_path, class: "btn btn-secondary" %>
+  </div>
+<% end %>
