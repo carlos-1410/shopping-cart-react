@@ -1,0 +1,26 @@
+<div class="row align-items-center justify-content-center mb-2">
+  <div class="col-1 text-center">
+    <%= link_to edit_product_path(product.id), class: "btn btn-sm btn-light ml-1", title: "Edit product" do %>
+      <%= fa_icon "pencil" %>
+    <% end %>
+    <%= link_to product, class: "btn btn-sm btn-light ml-1", title: "Remove product", data: { confirm: "Do you really want to remove this product?" }, method: :delete do %>
+      <%= fa_icon "trash" %>
+    <% end %>
+  </div>
+  <div class="col-2">
+    <%= image_tag product.image.variant(resize_to_fit: [150, 250]) %>
+  </div>
+  <div class="col-2">
+    <%= product.name %>
+  </div>
+  <div class="col-1">
+    <%= number_to_currency cents_to_amount(product.price), unit: "€" %>
+  </div>
+  <div class="col-2">
+    <%= form_with(url: api_v1_cart_items_upsert_path, remote: true) do |f| %>
+      <%= f.hidden_field :product_id, value: product.id %>
+      <%= f.hidden_field :quantity, value: 1, class: "form-control mr-2" %>
+      <%= f.submit "Add to cart", class: "btn btn-light" %>
+    <% end %>
+  </div>
+</div>

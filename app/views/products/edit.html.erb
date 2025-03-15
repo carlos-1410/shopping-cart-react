@@ -1,0 +1,21 @@
+<div class="container-fluid mt-4 align-items-center">
+  <div class="row">
+    <div class="col-6">
+      <h1>Edit product: <%= @product.name %></h1>
+    </div>
+    <div class="col-6">
+      <%= button_to product_path(@product), method: :delete, class: "btn btn-danger mt-2 float-end" do %>
+        <%= fa_icon "trash" %>
+      <%end %>
+    </div>
+  </div>
+  <hr/>
+  
+  <div class="container mb-5">
+    <div class="row">
+      <div class="col-6">
+        <%= render "form" %>
+      </div>
+    </div>
+  </div>
+</div>
