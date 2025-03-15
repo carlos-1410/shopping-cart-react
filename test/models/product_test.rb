@@ -47,7 +47,8 @@ class ProductTest < ActiveSupport::TestCase
 
   test "product_image returns URL when image is attached" do
     @product.save!
-    @product.image.attach(io: File.open("public/images/raincoat.png"), filename: "raincoat.png",
+    @product.image.attach(io: File.open("app/assets//images/raincoat.png"),
+                          filename: "raincoat.png",
                           content_type: "image/png")
 
     assert @product.image.attached?
