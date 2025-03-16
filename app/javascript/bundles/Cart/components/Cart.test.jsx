@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { act } from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Cart from './Cart';
@@ -40,6 +40,23 @@ describe('Cart Component', () => {
   test('renders the cart with items', async () => {
     render(<Cart />);
 
+    await waitFor(() => {
+      expect(screen.getByText('Product 1, Test Vendor')).toBeInTheDocument();
+      expect(screen.getByText('Product 2, Test Vendor')).toBeInTheDocument();
+    });
+  });
+
+  test('shows loader while fetching products', async () => {
+    let resolveFetch;
+    const fetchPromise = new Promise((resolve) => {
+      resolveFetch = resolve;
+    });
+
+    render(<Cart />);
+
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
+
+    await act(async () => resolveFetch(mockCartItems));
     await waitFor(() => {
       expect(screen.getByText('Product 1, Test Vendor')).toBeInTheDocument();
       expect(screen.getByText('Product 2, Test Vendor')).toBeInTheDocument();

@@ -26,6 +26,7 @@ const Product = ({ quantityInCart, product, onRemove }) => {
           alt={product.name}
           className="w-24 h-24 sm:w-36 sm:h-36 object-cover rounded"
           style={{ maxWidth: "100%", height: "auto" }}
+          loading="lazy"
         />
       </div>
 
@@ -47,7 +48,7 @@ const Product = ({ quantityInCart, product, onRemove }) => {
         </button>
       </div>
 
-      <hr className="text-secondary w-100" />
+      <hr className="text-secondary w-100 mt-2" />
     </div>
   );
 };

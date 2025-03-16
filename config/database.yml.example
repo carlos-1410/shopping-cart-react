@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: shopping_cart_development
+  database: shopping_cart_react_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -57,7 +57,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: shopping_cart_test
+  database: shopping_cart_react_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: shopping_cart_production
+  database: shopping_cart_react_production
   username: shopping_cart
   password: <%= ENV["SHOPPING_CART_DATABASE_PASSWORD"] %>

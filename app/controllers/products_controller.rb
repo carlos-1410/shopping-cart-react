@@ -16,7 +16,9 @@ class ProductsController < ApplicationController
 
   def create
     @product = Product.find_or_initialize_by(product_attributes.except(:image, :price_in_dollars))
-    @product.price_in_dollars = product_attributes[:price_in_dollars]
+    %i(price_in_dollars image).each do |attribute|
+      @product.public_send("#{attribute}=", product_attributes[attribute])
+    end
 
     respond_to do |format|
       if @product.save

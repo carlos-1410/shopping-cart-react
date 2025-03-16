@@ -26,7 +26,7 @@ module V1
     end
 
     test "product_image follows Active Storage URL pattern" do
-      assert_match %r{/rails/active_storage/blobs/redirect/.+/raincoat\.png},
+      assert_match %r{/rails/active_storage/representations/redirect/.+/raincoat\.png},
                    @serialization[:product_image]
     end
   end

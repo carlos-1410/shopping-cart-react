@@ -15,7 +15,10 @@ class Product < ApplicationRecord
   def product_image
     return unless image.attached?
 
-    Rails.application.routes.url_helpers.rails_blob_url(image, only_path: true)
+    Rails.application.routes.url_helpers.rails_representation_url(
+      image.variant(resize_to_fit: [150, 250], format: :webp),
+      only_path: true
+    )
   end
 
   def price_in_dollars

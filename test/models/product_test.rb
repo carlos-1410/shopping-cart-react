@@ -55,7 +55,8 @@ class ProductTest < ActiveSupport::TestCase
 
     @product.reload
 
-    assert_match %r{/rails/active_storage/blobs/}, @product.product_image
+    assert_match %r{/rails/active_storage/representations/redirect/.+/raincoat\.png},
+                 @product.product_image
   end
 
   test "updates cart item prices when price changes" do
