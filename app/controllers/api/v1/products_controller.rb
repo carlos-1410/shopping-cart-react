@@ -27,10 +27,6 @@ module Api
       def product
         @product ||= Product.find(params[:id])
       end
-
-      def product_attributes
-        params.require(:product).permit(:name, :vendor, :image, :price)
-      end
     end
   end
 end

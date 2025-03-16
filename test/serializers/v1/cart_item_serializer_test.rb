@@ -25,7 +25,7 @@ module V1
     end
 
     test "serializes image correctly" do
-      assert_match %r{/rails/active_storage/blobs/redirect/.+/raincoat\.png},
+      assert_match %r{/rails/active_storage/representations/redirect/.+/raincoat\.png},
                    @serialization[:product_image]
     end
 

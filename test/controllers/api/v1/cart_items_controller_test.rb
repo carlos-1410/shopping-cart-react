@@ -5,11 +5,14 @@ require "test_helper"
 module Api
   module V1
     class CartItemsControllerTest < ActionDispatch::IntegrationTest
-      setup do
+      def setup
         @cart = create(:cart)
         @product = create(:product)
-        @cart_item = create(:cart_item, cart: @cart, product: @product, quantity: 2,
-    total_price: @product.price * 2)
+        @cart_item = create(:cart_item,
+                            cart: @cart,
+                            product: @product,
+                            quantity: 2,
+                            total_price: @product.price * 2)
         @headers = { "X-Cart-ID" => @cart.id.to_s }
       end
 
@@ -32,8 +35,8 @@ module Api
 
       test "upsert adds a new item if not in cart" do
         new_product = create(:product)
-        post upsert_api_v1_cart_items_path, params: { product_id: new_product.id, quantity: 2 },
-    headers: @headers
+        post upsert_api_v1_cart_items_path,
+             params: { product_id: new_product.id, quantity: 2 }, headers: @headers
 
         json_response = response.parsed_body
 

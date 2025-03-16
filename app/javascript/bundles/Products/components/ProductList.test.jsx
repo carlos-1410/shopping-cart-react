@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { act } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import ProductList from './ProductList';
@@ -29,12 +29,27 @@ describe('ProductList Component', () => {
     expect(await screen.findByText(/Product B, Vendor B/i)).toBeInTheDocument();
   });
 
+  test('shows loader while fetching products', async () => {
+    let resolveFetch;
+    const fetchPromise = new Promise((resolve) => {
+      resolveFetch = resolve;
+    });
+    Api.fetchProducts.mockReturnValue(fetchPromise);
+
+    render(<ProductList cartItems={[]} />);
+
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
+
+    await act(async () => resolveFetch(mockProducts));
+    await waitFor(() => expect(screen.queryByTestId('loader')).not.toBeInTheDocument());
+  });
+
   test('shows message when no products are available', async () => {
     Api.fetchProducts.mockResolvedValueOnce([]);
 
     render(<ProductList cartItems={[]} />);
 
-    await waitFor(() => expect(Api.fetchProducts).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(screen.queryByTestId('loader')).not.toBeInTheDocument());
 
     expect(screen.getByText(/There are no products in the catalog/i)).toBeInTheDocument();
   });

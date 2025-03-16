@@ -37,3 +37,6 @@
 yarn-debug.log*
 .yarn-integrity
 .byebug_history
+.env
+
+/config/credentials/production.key
