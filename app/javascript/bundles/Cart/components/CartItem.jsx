@@ -28,9 +28,6 @@ const CartItem = ({ item, onUpdate, onRemove, onImageLoad }) => {
     }, [cartItem.product_id, handleRemove, onUpdate]),
     formattedPrice = useMemo(() => formatCurrency(cartItem.product.price), [cartItem.product.price]);
 
-
-    console.log("render cartitem")
-
   return (
     <div className="row align-items-center mb-2">
       <div className="col-12 col-md-2 text-center mb-2 mb-md-0">

@@ -22,7 +22,6 @@ const ProductList = ({ cartItems }) => {
       );
     }, []),
     handleImageLoad = useCallback(() => {
-      console.log("IMAGE LOAD")
       setImagesLoaded((prev) => (prev + 1));
     }, []),
     memoizedProducts = useMemo(() => {
@@ -67,7 +66,7 @@ const ProductList = ({ cartItems }) => {
           </div>
         }
       </div>
-      {(loading || !allImagesLoaded) && (
+      {(loading || (products.length > 0 && !allImagesLoaded)) && (
         <div className="loader-overlay">
           <div className="loader" data-testid="loader"></div>
         </div>

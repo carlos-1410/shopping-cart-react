@@ -82,11 +82,11 @@ const Cart = ({ boxIconPath }) => {
           <p className="text-muted">Add items from <a href="/products">the catalog</a></p>
         </div>
       }
-      {(loading || !allImagesLoaded && (
+      {(loading || (cartItems.length > 0 && !allImagesLoaded)) && (
         <div className="loader-overlay">
           <div className="loader" data-testid="loader"></div>
         </div>
-      ))}
+      )}
     </div>
   );
 };
