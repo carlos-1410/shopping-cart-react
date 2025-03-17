@@ -1,22 +1,19 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { formatCurrency } from '../../../services/ultils';
 import Api from '../../../services/api';
 
-const Product = ({ quantityInCart, product, onRemove }) => {
+const Product = ({ quantityInCart, product, onRemove, onImageLoad }) => {
   const [quantity, setQuantity] = useState(quantityInCart),
-    handleAddToCart = async () => {
-      await Api.updateCartItem({ product_id: product.id, quantity: quantity + 1 }).then((response) => {
-        setQuantity(response.cart_item.quantity);
-      });
-    },
-    handleDestroy = async () => {
+    handleAddToCart = useCallback(async () => {
+      await Api.updateCartItem({ product_id: product.id, quantity: quantity + 1 })
+        .then((response) => setQuantity(response.cart_item.quantity));
+    }),
+    handleDestroy = useCallback(async () => {
       if (window.confirm("Are you sure you want to remove this product?")) {
-        await Api.removeProduct(product.id).then(() => {
-          onRemove(product);
-        });
+        await Api.removeProduct(product.id).then(() => onRemove(product));
       }
-    };
+    }, [product, onRemove]);
 
   return (
     <div className="row align-items-center">
@@ -26,6 +23,8 @@ const Product = ({ quantityInCart, product, onRemove }) => {
           alt={product.name}
           className="w-24 h-24 sm:w-36 sm:h-36 object-cover rounded"
           style={{ maxWidth: "100%", height: "auto" }}
+          onLoad={onImageLoad}
+          onError={onImageLoad}
           loading="lazy"
         />
       </div>
@@ -56,6 +55,7 @@ const Product = ({ quantityInCart, product, onRemove }) => {
 Product.propTypes = {
   item: PropTypes.object.isRequired,
   onRemove: PropTypes.func.isRequired,
+  onImageLoad: PropTypes.func.isRequired
 };
 
 export default Product;

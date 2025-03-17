@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Quantity from './Quantity';
 import { Trash2 } from 'lucide-react';
 import { formatCurrency } from '../../../services/ultils';
 import Api from '../../../services/api';
 
-const CartItem = ({ item, onUpdate, onRemove }) => {
+const CartItem = ({ item, onUpdate, onRemove, onImageLoad }) => {
   const [cartItem, setCartItem] = useState(item),
-    handleRemove = async (id) => {
+    handleRemove = useCallback(async () => {
       if (window.confirm("Are you sure you want to remove this item from your cart?")) {
-        await Api.removeCartItem(id).then(() => onRemove(id));
+        await Api.removeCartItem(cartItem.id).then(() => onRemove(cartItem.id));
       }
-    },
-    handleUpdate = async (quantity) => {
+    }, [cartItem.id, onRemove]),
+    handleUpdate = useCallback(async (quantity) => {
       if (quantity > 0) {
         await Api.updateCartItem({ product_id: cartItem.product_id, quantity: quantity }).then((response) => {
           const updatedItem = response.cart_item;
@@ -25,7 +25,8 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
       } else {
         handleRemove(cartItem.id);
       }
-    };
+    }, [cartItem.product_id, handleRemove, onUpdate]),
+    formattedPrice = useMemo(() => formatCurrency(cartItem.product.price), [cartItem.product.price]);
 
   return (
     <div className="row align-items-center mb-2">
@@ -35,6 +36,8 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
           alt={cartItem.product.name}
           className="w-24 h-24 sm:w-36 sm:h-36 object-cover rounded"
           style={{ maxWidth: "100%", height: "auto" }}
+          onLoad={onImageLoad}
+          onError={onImageLoad}
           loading="lazy"
         />
       </div>
@@ -55,7 +58,7 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
           role="button"
           aria-label="delete"
         />
-        <p className="text-lg fw-bold py-2">{formatCurrency(cartItem.product.price)}</p>
+        <p className="text-lg fw-bold py-2">{formattedPrice}</p>
       </div>
 
       <hr className="text-secondary w-100 mt-2" />
@@ -66,7 +69,8 @@ const CartItem = ({ item, onUpdate, onRemove }) => {
 CartItem.propTypes = {
   item: PropTypes.object.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired
+  onRemove: PropTypes.func.isRequired,
+  onImageLoad: PropTypes.func.isRequired
 };
 
 export default CartItem;
