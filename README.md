@@ -10,4 +10,7 @@ An app that allows you to add products and put them to cart.
 5. `npm i`
 6. `./bin/dev-static`
 
+In case of errors related to missing libraries, just install them. No additional configuration is required.
+
 The app is available under https://shopping-cart-react.fly.dev/
+(if not, follow the above steps on your local machine)
