@@ -7,6 +7,7 @@ const ProductList = ({ cartItems }) => {
   const [products, setProducts] = useState([]),
     [loading, setLoading] = useState(true),
     [imagesLoaded, setImagesLoaded] = useState(0),
+    allImagesLoaded = products.length > 0 && imagesLoaded >= products.length,
     fetchProducts = useCallback(async () => {
       await Api.fetchProducts()
         .then((response) => {
@@ -36,8 +37,7 @@ const ProductList = ({ cartItems }) => {
           onImageLoad={handleImageLoad}
         />
       ));
-    }, [products, cartItems, handleRemoveProduct]),
-    allImagesLoaded = products.length > 0 && imagesLoaded >= products.length;
+    }, [products, cartItems, handleRemoveProduct]);
 
   useEffect(() => {
     fetchProducts();
