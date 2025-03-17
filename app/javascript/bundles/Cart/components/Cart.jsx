@@ -11,7 +11,6 @@ const Cart = ({ boxIconPath }) => {
       await Api.fetchCartItems()
         .then((response) => {
           setCartItems(response);
-          setLoading(false);
         }).finally(() => {
           setLoading(false);
         });

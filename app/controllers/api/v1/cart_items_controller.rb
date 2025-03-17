@@ -4,7 +4,7 @@ module Api
   module V1
     class CartItemsController < ApplicationController
       def index
-        cart_items = CartItem.includes(:product).where(cart_id: @cart.id).order(created_at: :asc)
+        cart_items = CartItem.eager_load(:product).where(cart_id: @cart.id).order(created_at: :asc)
 
         render json: cart_items,
                each_serializer: ::V1::CartItemSerializer,

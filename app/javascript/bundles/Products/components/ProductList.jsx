@@ -19,7 +19,6 @@ const ProductList = ({ cartItems }) => {
       await Api.fetchProducts()
         .then((response) => {
           setProducts(response);
-          setLoading(false);
         }).finally(() => {
           setLoading(false);
         });
